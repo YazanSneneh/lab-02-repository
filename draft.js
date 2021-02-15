@@ -35,8 +35,8 @@ function readJson() {
                     keywordsArray.push(element.keyword);
                 }
                 
+                
             });
-            
             makeDropDownList(keywordsArray)
         });
 }
@@ -48,7 +48,7 @@ function makeDropDownList(keywords){
     })
 }
 function displayFiltered(e){
-    
+    let keyword;
     for (let index = 0; index < arrayOfImages.length; index++) {
         if(arrayOfImages[index] == e.target.value){
             newImage[index].show();
