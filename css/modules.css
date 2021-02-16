@@ -8,7 +8,7 @@ header select{
     font-size: 18px;
 }
 
-main > template{
+main > section{
     /* float: left; */
     /* border: 1px solid; */
     width: 370px;
@@ -17,15 +17,15 @@ main > template{
     padding: 9px;
 }
 
-main > template h2{
+main > section h2{
     margin: 15px;
 }
-main > template img{
+main > section img{
     margin: 15px;
     width: 165px;
     height: 165px;
 }
-main > template p{
+main > section p{
      font-size: 20px;
      line-height: 1.5;
 }
