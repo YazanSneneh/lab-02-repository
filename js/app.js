@@ -90,6 +90,8 @@ $(document).ready(() => {
     $('#drop-down').on('change', filterImages)
     $('#btn1').on('click', readJsonFile1)
     $('#btn2').on('click', readJsonFile2)
+
     // $('#sort-horns').on('click', handleSort)
     // $('#sort-title').on('click', handleSort)
+
 });
