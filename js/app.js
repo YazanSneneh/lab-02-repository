@@ -1,27 +1,24 @@
 'use strict'
+
+// ..................................................... application variables 
 let keywordsArray = [];
 let arrayOfImages = [];
-
-function Images(image_url, title, description, keyword, horns) {
-    this.image = image_url;
-    this.titleImg = title;
-    this.descriptionImg = description;
-    this.keywordImg = keyword;
-    this.hornsImg = horns;
-    arrayOfImages.push(this);
+// .................................................... data and it's methods 
+function Images(elementImage) {
+    for (let key in elementImage) {
+        this[key] = elementImage[key]
+    }
+    arrayOfImages.push(elementImage)
 }
 
 Images.prototype.render = function () {
-    let imageClone = $('#photo-template').clone();
-    imageClone.find('h2').text(this.titleImg);
-    imageClone.find('img').attr('src', this.image);
-    imageClone.find('p').text(this.descriptionImg);
-    imageClone.addClass(this.keywordImg)
-    imageClone.removeClass('remove-template')
-    $('main').append(imageClone);
+    let imageClone = $('#photo-template').html()
+    let mustache = Mustache.render(imageClone, this)
+    $('main').append(mustache)
 }
 
-function readJsonFile1() {
+// ................................................... read data from files 
+const readJsonFile1 = () => {
     $('main').empty()
     const ajaxSettings = {
         method: 'get',
@@ -30,17 +27,27 @@ function readJsonFile1() {
     $.ajax('../data/page-1.json', ajaxSettings)
         .then(data => {
             data.forEach(element => {
-                let newImage = new Images(element.image_url, element.title, element.description, element.keyword, element.horns);
+                let newImage = new Images(element);
                 newImage.render();
                 if (keywordsArray.includes(element.keyword) === false) {
                     keywordsArray.push(element.keyword);
                 }
             });
             makeDropDownList(keywordsArray);
-            console.log(arrayOfImages[0])
+            // arrayOfImages.sort((a, b) => {
+            //     let itemA = a.horns
+            //     let itemb = b.horns
+
+            //     if (a.horns < b.horns) {
+            //         return -1;
+            //     } else if (a.horns > b.horns) {
+            //         return 1;
+            //     }
+            //     return 0;
+            // })
         });
 }
-function readJsonFile2() {
+const readJsonFile2 = () => {
     $('main').empty()
     const ajaxSettings = {
         method: 'get',
@@ -49,7 +56,7 @@ function readJsonFile2() {
     $.ajax('../data/page-2.json', ajaxSettings)
         .then(data => {
             data.forEach(element => {
-                let newImage = new Images(element.image_url, element.title, element.description, element.keyword, element.horns);
+                let newImage = new Images(element);
                 newImage.render();
                 if (keywordsArray.includes(element.keyword) === false) {
                     keywordsArray.push(element.keyword);
@@ -58,6 +65,7 @@ function readJsonFile2() {
             makeDropDownList(keywordsArray)
         });
 }
+//  ........................................................... functions
 function makeDropDownList(keywords) {
     keywords.forEach(item => {
         let option = $('<option> </option>').text(item);
@@ -65,18 +73,25 @@ function makeDropDownList(keywords) {
     })
 }
 
-$('#drop-down').on('change', function (event) {
+// filter function
+const filterImages = (event) => {
     let val = event.target.value;
     arrayOfImages.forEach(item => {
-        if (val === item.keywordImg) {
-            $('main section').addClass('remove-template')
-            $('main section.' + item.keywordImg).removeClass('remove-template')
-        } else if (val === 'all') {
-            $('main section').removeClass('remove-template')
+        if (val === item.keyword) {   // find and show noly images with specefic keywords
+            $('main div').addClass('remove-template')
+            $('main div.' + item.keyword).removeClass('remove-template')
+        } else if (val === 'all') {  // special case to show all images
+            $('main div').removeClass('remove-template')
         }
     })
-})
+}
+//............................................................ executable code 
 $(document).ready(() => {
+    $('#drop-down').on('change', filterImages)
     $('#btn1').on('click', readJsonFile1)
     $('#btn2').on('click', readJsonFile2)
+
+    // $('#sort-horns').on('click', handleSort)
+    // $('#sort-title').on('click', handleSort)
+
 });
