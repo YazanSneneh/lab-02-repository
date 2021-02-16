@@ -1,7 +1,9 @@
 'use strict'
+
+// ..................................................... application variables 
 let keywordsArray = [];
 let arrayOfImages = [];
-
+// .................................................... data and it's methods 
 function Images(elementImage) {
     for (let key in elementImage) {
         this[key] = elementImage[key]
@@ -15,7 +17,8 @@ Images.prototype.render = function () {
     $('main').append(mustache)
 }
 
-function readJsonFile1() {
+// ................................................... read data from files 
+const readJsonFile1 = () => {
     $('main').empty()
     const ajaxSettings = {
         method: 'get',
@@ -30,11 +33,21 @@ function readJsonFile1() {
                     keywordsArray.push(element.keyword);
                 }
             });
-            // sortImages(arrayOfImages)
             makeDropDownList(keywordsArray);
+            // arrayOfImages.sort((a, b) => {
+            //     let itemA = a.horns
+            //     let itemb = b.horns
+
+            //     if (a.horns < b.horns) {
+            //         return -1;
+            //     } else if (a.horns > b.horns) {
+            //         return 1;
+            //     }
+            //     return 0;
+            // })
         });
 }
-function readJsonFile2() {
+const readJsonFile2 = () => {
     $('main').empty()
     const ajaxSettings = {
         method: 'get',
@@ -52,6 +65,7 @@ function readJsonFile2() {
             makeDropDownList(keywordsArray)
         });
 }
+//  ........................................................... functions
 function makeDropDownList(keywords) {
     keywords.forEach(item => {
         let option = $('<option> </option>').text(item);
@@ -59,38 +73,23 @@ function makeDropDownList(keywords) {
     })
 }
 
-$('#drop-down').on('change', function (event) {
+// filter function
+const filterImages = (event) => {
     let val = event.target.value;
     arrayOfImages.forEach(item => {
-        if (val === item.keyword) {
+        if (val === item.keyword) {   // find and show noly images with specefic keywords
             $('main div').addClass('remove-template')
             $('main div.' + item.keyword).removeClass('remove-template')
-        } else if (val === 'all') {
+        } else if (val === 'all') {  // special case to show all images
             $('main div').removeClass('remove-template')
         }
     })
-})
-
-// function sortImages(arr) {
-//     arr.sort(compare)
-//     // return arr;
-//     function compare(a, b) {
-//         if (a.horns < b.horns) {
-//             return -1;
-//         } else if (a.horns > b.horns) {
-//             return 1;
-//         }
-//         return 0;
-//     }
-//     return arr;
-// }
+}
+//............................................................ executable code 
 $(document).ready(() => {
+    $('#drop-down').on('change', filterImages)
     $('#btn1').on('click', readJsonFile1)
     $('#btn2').on('click', readJsonFile2)
-    // $('#sort-horns').on('click', readJsonFile1)
-    // $('#sort-horns').on('click', readJsonFile2)
+    // $('#sort-horns').on('click', handleSort)
+    // $('#sort-title').on('click', handleSort)
 });
-
-/*
-
-*/
