@@ -1,11 +1,15 @@
 body{
     background-color: antiquewhite;
+    color: #f6f5f5;
 }
 header{
     background-color: #1687a7;
-    color: #fff;
 }
-main section{
-    background-color: #276678;
+header button{
+    background-color: #393e46;
     color: #f6f5f5;
+    margin: 5px 10px;
+}
+main div{
+    background-color: #276678;
 }

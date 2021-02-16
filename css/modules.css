@@ -8,31 +8,40 @@ header select{
     font-size: 18px;
 }
 
-main > section{
-    float: left;
+header button{
+    padding: 5px 20px;
+    outline: none;
+
+}
+main{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.remove-template{ 
+    display: none;
+ }
+main > div{
     border: 1px solid;
     width: 370px;
     height: 370px;
     margin:  10px;
     padding: 9px;
 }
-.remove-template{
-   display: none;
-}
-main > section h2{
+
+main > div h2{
     margin: 15px;
 }
-main > section img{
+main > div img{
     margin: 15px;
     width: 165px;
     height: 165px;
 }
-main > section p{
+main > div p{
      font-size: 20px;
      line-height: 1.5;
 }
 
 footer {
-    clear: both;
     padding: 5% 0;
 }

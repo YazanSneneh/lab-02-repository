@@ -21,13 +21,19 @@
       <button id="btn1">Page 1</button>
       <button id="btn2">Page 2</button>
     </div>
+    <div>
+      <button id='sort-horns'>Sort by Horns</button>
+      <button id="sort-title"> sort by title</button>
+    </div>
   </header>
-  <section id="photo-template" class="remove-template">
-    <h2>{{title}}</h2>
-    <img src={{image_url}} alt="">
-    <p>{{description}}</p>
-  </section>
-  <main>
+  <template id="photo-template">
+    <div class={{keyword}}>
+      <h2>{{title}}</h2>
+      <img src={{image_url}} alt="">
+      <p>{{description}}</p>
+    </div>
+  </template>
+  <main id='main' class=" container">
 
   </main>
   <footer>
@@ -36,7 +42,6 @@
 
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="https://unpkg.com/mustache@latest"></script>
-
 
   <script src='js/app.js'></script>
 </body>
