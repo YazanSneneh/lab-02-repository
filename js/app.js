@@ -1,5 +1,5 @@
 'use strict'
-var keywordsArray = [];
+let keywordsArray = [];
 let arrayOfImages = [];
 
 function Images(image_url, title, description, keyword, horns) {
@@ -12,21 +12,21 @@ function Images(image_url, title, description, keyword, horns) {
 }
 
 Images.prototype.render = function () {
-    let imageClone = $('#photo-template').clone();
-    imageClone.find('h2').text(this.titleImg);
-    imageClone.find('img').attr('src', this.image);
-    imageClone.find('p').text(this.descriptionImg);
-    imageClone.addClass(this.keywordImg)
-    imageClone.toggleClass('remove-template')
-    $('main').append(imageClone);
-    // let template = $("#photo-template").html();
-    // Mustache.render(template,this);
+    let imageClone = $('#photo-template > div');
+    // imageClone.find('h2').text(this.titleImg);
+    // imageClone.find('img').attr('src', this.image);
+    // imageClone.find('p').text(this.descriptionImg);
+    // imageClone.addClass(this.keywordImg)
+    // imageClone.removeClass('remove-template')
+    // $('main').append(imageClone);
+    let template = $("photo-template").html();
+    let mustachImage = Mustache.render(template, this);
     // $('main').append(template);
+    $('main').append(mustachImage);
+}
 
-}// create a method that each time it will add an item to the object/ constractor
-// first: do JSON quest.
-
-function readJson() {
+function readJsonFile1() {
+    $('main').empty()
     const ajaxSettings = {
         method: 'get',
         dataType: 'json'
@@ -40,10 +40,27 @@ function readJson() {
                     keywordsArray.push(element.keyword);
                 }
             });
+            makeDropDownList(keywordsArray);
+        });
+}
+function readJsonFile2() {
+    $('main').empty()
+    const ajaxSettings = {
+        method: 'get',
+        dataType: 'json'
+    };
+    $.ajax('../data/page-2.json', ajaxSettings)
+        .then(data => {
+            data.forEach(element => {
+                let newImage = new Images(element.image_url, element.title, element.description, element.keyword, element.horns);
+                newImage.render();
+                if (keywordsArray.includes(element.keyword) === false) {
+                    keywordsArray.push(element.keyword);
+                }
+            });
             makeDropDownList(keywordsArray)
         });
 }
-
 function makeDropDownList(keywords) {
     keywords.forEach(item => {
         let option = $('<option> </option>').text(item);
@@ -51,18 +68,18 @@ function makeDropDownList(keywords) {
     })
 }
 
-$(document).ready(() => {
-    readJson();
-});
-
 $('#drop-down').on('change', function (event) {
     let val = event.target.value;
     arrayOfImages.forEach(item => {
         if (val === item.keywordImg) {
             $('main section').addClass('remove-template')
-            $('main section.' + item.keywordImg).removeClass('remove-template')
-
+            $('main section.' + item.keywordImg).removeClass('remove-template');
+        } else if (val === 'all') {
+            $('main section').removeClass('remove-template')
         }
     })
-
 })
+$(document).ready(() => {
+    $('#btn1').on('click', readJsonFile1)
+    $('#btn2').on('click', readJsonFile2)
+});
