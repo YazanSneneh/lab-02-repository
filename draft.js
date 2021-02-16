@@ -30,14 +30,26 @@ function readJson() {
         .then(data => {
             data.forEach(element => {
                 let newImage = new Images(element.image_url, element.title, element.description, element.keyword, element.horns);
-                newImage.render();
+                
                 if (keywordsArray.includes(element.keyword) === false) {
                     keywordsArray.push(element.keyword);
                 }
                 
                 
             });
+            newImage.render();
             makeDropDownList(keywordsArray)
+            $('#drop-down').on('change',function (e){
+                for (let index = 0; index < arrayOfImages.length; index++) {
+                    if(arrayOfImages[index] == e.target.value){
+                        $(".remove-template").show();
+                    } 
+                    else {
+                        $(".remove-template").hide(); 
+                    }
+                    
+                }
+            }
         });
 }
 
@@ -47,19 +59,18 @@ function makeDropDownList(keywords){
         $('#drop-down').append(option);
     })
 }
-function displayFiltered(e){
-    let keyword;
-    for (let index = 0; index < arrayOfImages.length; index++) {
-        if(arrayOfImages[index] == e.target.value){
-            newImage[index].show();
-        } 
-        else {
-            newImage[index].hide(); 
-        }
+// function displayFiltered(e){
+//     for (let index = 0; index < arrayOfImages.length; index++) {
+//         if(arrayOfImages[index] == e.target.value){
+//             newImage[index].show();
+//         } 
+//         else {
+//             newImage[index].hide(); 
+//         }
         
-    }
+//     }
 
-}
+// }
     
 
 
