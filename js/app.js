@@ -1,4 +1,3 @@
-
 'use strict'
 let keywordsArray = [];
 let arrayOfImages = [];
@@ -13,17 +12,13 @@ function Images(image_url, title, description, keyword, horns) {
 }
 
 Images.prototype.render = function () {
-    let imageClone = $('#photo-template > div');
-    // imageClone.find('h2').text(this.titleImg);
-    // imageClone.find('img').attr('src', this.image);
-    // imageClone.find('p').text(this.descriptionImg);
-    // imageClone.addClass(this.keywordImg)
-    // imageClone.removeClass('remove-template')
-    // $('main').append(imageClone);
-    let template = $("photo-template").html();
-    let mustachImage = Mustache.render(template, this);
-    // $('main').append(template);
-    $('main').append(mustachImage);
+    let imageClone = $('#photo-template').clone();
+    imageClone.find('h2').text(this.titleImg);
+    imageClone.find('img').attr('src', this.image);
+    imageClone.find('p').text(this.descriptionImg);
+    imageClone.addClass(this.keywordImg)
+    imageClone.removeClass('remove-template')
+    $('main').append(imageClone);
 }
 
 function readJsonFile1() {
@@ -42,6 +37,7 @@ function readJsonFile1() {
                 }
             });
             makeDropDownList(keywordsArray);
+            console.log(arrayOfImages[0])
         });
 }
 function readJsonFile2() {
@@ -74,7 +70,7 @@ $('#drop-down').on('change', function (event) {
     arrayOfImages.forEach(item => {
         if (val === item.keywordImg) {
             $('main section').addClass('remove-template')
-            $('main section.' + item.keywordImg).removeClass('remove-template');
+            $('main section.' + item.keywordImg).removeClass('remove-template')
         } else if (val === 'all') {
             $('main section').removeClass('remove-template')
         }
