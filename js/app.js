@@ -11,16 +11,20 @@ function Images(image_url, title, description, keyword, horns) {
 }
 
 Images.prototype.render = function () {
-    let $imageClone = $('#photo-template').clone();
-    $('main').append($imageClone);
-    $imageClone.find('h2').text(this.titleImg);
-    $imageClone.find('img').attr('src', this.image);
-    $imageClone.find('p').text(this.descriptionImg);
-    $imageClone.removeClass('remove-template');
+    // let $imageClone = $('#photo-template').clone();
+    // $('main').append($imageClone);
+    // $imageClone.find('h2').text(this.titleImg);
+    // $imageClone.find('img').attr('src', this.image);
+    // $imageClone.find('p').text(this.descriptionImg);
+    // $imageClone.removeClass('remove-template');
+
+    let template = $("#photo-template").html();
+    Mustache.render(template,this);
+    $('main').append(template);
 
 }// create a method that each time it will add an item to the object/ constractor
 // first: do JSON quest.
-// 
+ 
 function readJson() {
     const ajaxSettings = {
         method: 'get',
@@ -34,33 +38,35 @@ function readJson() {
                 if (keywordsArray.includes(element.keyword) === false) {
                     keywordsArray.push(element.keyword);
                 }
-                
+
             });
-            
+
             makeDropDownList(keywordsArray)
+
+
         });
 }
 
-function makeDropDownList(keywords){
-    keywords.forEach(item =>{
+function makeDropDownList(keywords) {
+    keywords.forEach(item => {
         let option = $('<option> </option>').text(item);
         $('#drop-down').append(option);
     })
 }
-function displayFiltered(e){
-    
+function displayFiltered(e) {
+
     for (let index = 0; index < arrayOfImages.length; index++) {
-        if(arrayOfImages[index] == e.target.value){
+        if (arrayOfImages[index] == e.target.value) {
             newImage[index].show();
-        } 
-        else {
-            newImage[index].hide(); 
         }
-        
+        else {
+            newImage[index].hide();
+        }
+
     }
 
 }
-    
+
 
 
 // function filt(item){
@@ -76,14 +82,24 @@ function displayFiltered(e){
 // }
 $(document).ready(() => {
     readJson();
-    $('#drop-down').on('change',displayFiltered)
-    
+    // $('#drop-down').on('change',displayFiltered)
+
 });
 
- /*
- 2. render elements in the dropdown list.
-       select element from html
-       create option for each element in the array
-       append it to selec element
-    
- */
+/*
+2. render elements in the dropdown list.
+      select element from html
+      create option for each element in the array
+      append it to selec element
+   
+*/
+// $('#drop-down').on('change', function () {
+//     for (let index = 0; index < arrayOfImages.length; index++) {
+//         if(arrayOfImages[index] == e.target.value){
+//             $(section).show();
+//         } 
+//         else {
+//             $(section).hide(); 
+//         }
+
+//      }
