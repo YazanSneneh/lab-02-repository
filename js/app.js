@@ -58,9 +58,10 @@ $(document).ready(() => {
 $('#drop-down').on('change', function (event) {
     let val = event.target.value;
     arrayOfImages.forEach(item => {
-        if (val !== item.keywordImg) {
-            $('main section').toggleClass('remove-template')
-            $('main section.' + item.keywordImg).toggleClass('remove-template')
+        if (val === item.keywordImg) {
+            $('main section').addClass('remove-template')
+            $('main section.' + item.keywordImg).removeClass('remove-template')
+
         }
     })
 
